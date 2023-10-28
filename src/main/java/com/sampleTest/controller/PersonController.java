@@ -37,7 +37,7 @@ public class PersonController {
         Person savedPerson = personService.savePerson(person);
         return new ResponseEntity<>(savedPerson, HttpStatus.CREATED);
     }
-
+    
     //http://localhost:8085/api/persons/
     @GetMapping("/")
     public List<Person> getAllPersons() {
@@ -59,6 +59,9 @@ public class PersonController {
         personService.deletePerson(id);
         return new ResponseEntity("Data is deleted",HttpStatus. GONE);
     }
+      
+   
+    
     
     
 }
