@@ -33,13 +33,16 @@ public class Person implements Serializable {
     public Person() {
     }
 
+
+
     public Person(Integer id, String name, String city) {
         this.id = id;
         this.name = name;
         this.city = city;
     }
 
-    public Integer getId() {
+
+    public Integer getId(int i) {
         return id;
     }
 

@@ -8,12 +8,15 @@ import com.sampleTest.model.Person;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
- *
  * @author 91976
  */
-public interface PersonDAO extends JpaRepository<Person, Integer>{
+public interface PersonDAO extends JpaRepository<Person, Integer> {
 
+    @Override
     public Person save(Person person);
-     public Person getById(Integer id);
+
+    @Override
+    public Person getById(Integer id);
+
 
 }
