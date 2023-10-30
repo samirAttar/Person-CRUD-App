@@ -1,7 +1,8 @@
-package com.sampleTest.service;
+package com.sampleTest.UniteTesting.service.service;
 
 import com.sampleTest.DAO.PersonDAO;
 import com.sampleTest.model.Person;
+import com.sampleTest.service.PersonService;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;

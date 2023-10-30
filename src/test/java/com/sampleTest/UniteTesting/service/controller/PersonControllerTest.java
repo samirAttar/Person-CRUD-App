@@ -1,5 +1,6 @@
-package com.sampleTest.controller;
+package com.sampleTest.UniteTesting.service.controller;
 
+import com.sampleTest.controller.PersonController;
 import com.sampleTest.model.Person;
 import com.sampleTest.service.PersonService;
 import org.junit.jupiter.api.Test;
