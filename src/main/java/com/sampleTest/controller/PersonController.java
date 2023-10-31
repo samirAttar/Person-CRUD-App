@@ -31,6 +31,12 @@ public class PersonController {
     @Autowired
     private PersonService personService;
 
+    @PostMapping("/savePerson")
+    public ResponseEntity<String> savexmlPerson(@RequestBody Person person) {
+        String xml = personService.savexmlPerson(person);
+        return new ResponseEntity<>(xml, HttpStatus.CREATED);
+    }
+
     @PostMapping
     public ResponseEntity<Person> savePerson(@RequestBody Person person) {
         Person savedPerson = personService.savePerson(person);
