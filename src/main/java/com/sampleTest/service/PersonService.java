@@ -16,26 +16,28 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class PersonService {
-    
+
     @Autowired
     private PersonDAO personDAO;
-    
-    
+
     public Person savePerson(Person person) {
         return personDAO.save(person);
     }
-    
+
+    public Person updatePerson(Person person) {
+        return personDAO.save(person);
+    }
+
     public Person getPersonById(Integer id) {
         return personDAO.findById(id).orElse(null);
     }
-    
-    
+
     public List<Person> getAllPersons() {
         return personDAO.findAll();
     }
-    
+
     public void deletePerson(Integer id) {
         personDAO.deleteById(id);
     }
-    
+
 }

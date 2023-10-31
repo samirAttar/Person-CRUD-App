@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,9 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/persons")
 public class PersonController {
 
-    
     //http://localhost:8085/api/persons
-    
     @Autowired
     private PersonService personService;
 
@@ -37,13 +36,18 @@ public class PersonController {
         Person savedPerson = personService.savePerson(person);
         return new ResponseEntity<>(savedPerson, HttpStatus.CREATED);
     }
-    
+
+    @PutMapping("/update")
+    public Person updatePerson(@RequestBody Person person) {
+        return personService.updatePerson(person);
+    }
+
     //http://localhost:8085/api/persons/
     @GetMapping("/")
     public List<Person> getAllPersons() {
         return personService.getAllPersons();
     }
-    
+
     @GetMapping("/{id}")
     public ResponseEntity<Person> getPersonById(@PathVariable Integer id) {
         Person person = personService.getPersonById(id);
@@ -53,15 +57,11 @@ public class PersonController {
             return ResponseEntity.notFound().build();
         }
     }
-    
-     @DeleteMapping("/{id}")
+
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePerson(@PathVariable Integer id) {
         personService.deletePerson(id);
-        return new ResponseEntity("Data is deleted",HttpStatus. GONE);
+        return new ResponseEntity("Data is deleted", HttpStatus.GONE);
     }
-      
-   
-    
-    
-    
+
 }
