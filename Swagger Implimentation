@@ -1,0 +1,56 @@
+Swagger Implimenattaion:
+
+1. Add dependency :
+A) SpringFox Swagger2 » 2.9.2:
+
+<!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger2 -->
+<dependency>
+    <groupId>io.springfox</groupId>
+    <artifactId>springfox-swagger2</artifactId>
+    <version>2.9.2</version>
+</dependency>
+
+B) SpringFox Swagger UI » 2.9.2:
+
+ <!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui -->
+<dependency>
+    <groupId>io.springfox</groupId>
+    <artifactId>springfox-swagger-ui</artifactId>
+    <version>2.9.2</version>
+</dependency>
+
+2) Create pkg called as Config and in this pkg add class called as swaggerConfig and add annotations as follows
+
+
+package com.UserType.Config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+@Configuration
+@EnableSwagger2
+public class SwaggerConfig {
+
+    @Bean
+    public Docket api() {
+        return new Docket(DocumentationType.SWAGGER2)
+.select()
+.apis(RequestHandlerSelectors.basePackage("com.UserType.Controller"))
+.paths(PathSelectors.any())
+.build();
+
+
+    }
+}
+
+3) Configure application.properties
+spring.mvc.pathmatch.matching-strategy=ant-path-matcher
+
+4) Paste url in browser 
+
+http://localhost:7070/swagger-ui.html
