@@ -33,13 +33,15 @@ public class Person implements Serializable {
     public Person() {
     }
 
-
-
-    public Person( String name, String city) {
-        
+    public Person(Integer id, String name, String city) {
+        this.id = id;
         this.name = name;
         this.city = city;
     }
+
+
+
+   
 
 
     public Integer getId() {
