@@ -2,6 +2,8 @@ package com.sampleTest;
 
 import com.sampleTest.DAO.PersonDAO;
 import com.sampleTest.model.Person;
+import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -12,8 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.web.client.RestTemplate;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class SampleTestApplicationTests {
@@ -42,7 +42,7 @@ class SampleTestApplicationTests {
 
     @Test
     public void savePerson() {
-        Person person = new Person(1, "JohnA", "NYC");
+        Person person = new Person(65, "JohnA", "NYC");
         Person response = restTemplate.postForObject(baseUrl, person, Person.class);
 
         Assertions.assertEquals("JohnA", response.getName());
@@ -50,19 +50,6 @@ class SampleTestApplicationTests {
 
     }
 
-//    @Test
-//    @Sql(statements = "Insert into person(id,name,city) Values(10,'AAA',NYC)", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD);
-//    public void getPerson(){
-//    
-//        List person = restTemplate.getForObject(baseUrl, List.class);
-//        Assertions.assertEquals(1, person.size());
-//        Assertions.assertEquals(1,personDAO.findAll().size());
-//    }
-    
-    
-    
-    
-    
     // Make sure this method will create new data and after execution it will delete that data.
     @Test
     @Sql(statements = "Insert into person(id,name,city) Values(49,'JohnA','DC')", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
@@ -80,7 +67,6 @@ class SampleTestApplicationTests {
         );
     }
 
-    
     // This method will update the existing data from database. After the test execution data will be save in database
     @Test
     public void updatePersonDB() {
