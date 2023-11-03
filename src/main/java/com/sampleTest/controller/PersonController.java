@@ -4,6 +4,7 @@
  */
 package com.sampleTest.controller;
 
+import com.sampleTest.DTO.PersonDto;
 import com.sampleTest.model.Person;
 import com.sampleTest.service.PersonService;
 import java.util.List;
@@ -43,9 +44,10 @@ public class PersonController {
         return new ResponseEntity<>(savedPerson, HttpStatus.CREATED);
     }
 
-    @PutMapping("/update")
-    public Person updatePerson(@RequestBody Person person) {
-        return personService.updatePerson(person);
+    
+    @PutMapping("/update/{id}")
+    public Person updatePerson(@RequestBody PersonDto person, @PathVariable int id) {
+        return personService.updatePerson(person,id);
     }
 
     //http://localhost:8085/api/persons/

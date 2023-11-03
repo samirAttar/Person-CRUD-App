@@ -6,9 +6,11 @@ package com.sampleTest.service;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.sampleTest.DAO.PersonDAO;
+import com.sampleTest.DTO.PersonDto;
 import com.sampleTest.model.Person;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,9 +46,29 @@ public class PersonService {
         return personDAO.save(person);
     }
 
-    public Person updatePerson(Person person) {
-        return personDAO.save(person);
+    public Person updatePerson(PersonDto PersonDto,int id) {
+          
+        Person person = personDAO.findById(id).orElseThrow(null); 
+        Person newPerson = mapToEntity(PersonDto);
+        
+        person.setName(newPerson.getName());
+        person.setCity(newPerson.getCity());
+        
+        Person save = personDAO.save(person);
+        
+        return save;
     }
+        
+    
+    
+   private Person mapToEntity(PersonDto dto){
+   
+       Person person=new Person();
+       
+       person.setName(dto.getName());
+       person.setCity(dto.getCity());
+       return person;
+   }
 
     public Person getPersonById(Integer id) {
         return personDAO.findById(id).orElse(null);

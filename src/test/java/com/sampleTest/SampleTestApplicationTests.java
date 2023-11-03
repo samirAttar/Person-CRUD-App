@@ -44,4 +44,23 @@ class SampleTestApplicationTests {
         // Assertions.assertEquals(26, personDAO.findAll().size());
 
     }
+
+//    @Test
+//    @Sql(statements = "Insert into person(id,name,city) Values(10,'AAA',NYC)", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD);
+//    public void getPerson(){
+//    
+//        List person = restTemplate.getForObject(baseUrl, List.class);
+//        Assertions.assertEquals(1, person.size());
+//        Assertions.assertEquals(1,personDAO.findAll().size());
+//    }
+//    @Test
+//    @Sql(statements = "Insert into person(name,city) Values('AA','NYC')", executionPhase = Sql.ExecutionPhase)
+//    public void updatePerson() {
+//
+//        Person person = new Person("JohnA", "NYC");
+//
+//        restTemplate.put(baseUrl + "/update", person);
+//        personDAO.findById(port)
+//    }
+
 }
