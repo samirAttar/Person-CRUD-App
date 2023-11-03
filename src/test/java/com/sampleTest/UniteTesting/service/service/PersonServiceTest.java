@@ -24,7 +24,7 @@ public class PersonServiceTest {
 
     @Test
     public void testSavePerson() {
-        Person person = new Person(1, "John", "Doe");
+        Person person = new Person( "John", "Doe");
         when(personDAO.save(person)).thenReturn(person);
         Person savedPerson = personService.savePerson(person);
         assertEquals(person, savedPerson);
@@ -32,7 +32,7 @@ public class PersonServiceTest {
 
     @Test
     public void testGetPersonById() {
-        Person person = new Person(1, "John", "Doe");
+        Person person = new Person( "John", "Doe");
         when(personDAO.findById(1)).thenReturn(Optional.of(person));
         Person foundPerson = personService.getPersonById(1);
         assertEquals(person, foundPerson);
@@ -40,8 +40,8 @@ public class PersonServiceTest {
 
     @Test
     public void testGetAllPersons() {
-        Person person1 = new Person(1, "John", "Doe");
-        Person person2 = new Person(2, "Jane", "Doe");
+        Person person1 = new Person( "John", "Doe");
+        Person person2 = new Person( "Jane", "Doe");
         List<Person> allPersons = Arrays.asList(person1, person2);
         when(personDAO.findAll()).thenReturn(allPersons);
         List<Person> foundPersons = personService.getAllPersons();

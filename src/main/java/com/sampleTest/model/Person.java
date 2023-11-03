@@ -35,8 +35,8 @@ public class Person implements Serializable {
 
 
 
-    public Person(Integer id, String name, String city) {
-        this.id = id;
+    public Person( String name, String city) {
+        
         this.name = name;
         this.city = city;
     }
