@@ -2,8 +2,6 @@ package com.sampleTest;
 
 import com.sampleTest.DAO.PersonDAO;
 import com.sampleTest.model.Person;
-import java.util.List;
-import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -42,24 +40,25 @@ class SampleTestApplicationTests {
 
     @Test
     public void savePerson() {
-        Person person = new Person(65, "JohnA", "NYC");
+        Person person = new Person(83, "JohnA", "NYC");
         Person response = restTemplate.postForObject(baseUrl, person, Person.class);
 
         Assertions.assertEquals("JohnA", response.getName());
-        // Assertions.assertEquals(26, personDAO.findAll().size());
-
+        Assertions.assertEquals("NYC",response.getCity());
+        Assertions.assertEquals(83, response.getId());
+       
     }
 
     // Make sure this method will create new data and after execution it will delete that data.
     @Test
-    @Sql(statements = "Insert into person(id,name,city) Values(49,'JohnA','DC')", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(statements = "Delete from person where id=49", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    @Sql(statements = "Insert into person(id,name,city) Values(80,'JohnA','DC')", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(statements = "Delete from person where id=80", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     public void updatePerson() {
 
-        Person person = new Person(49, "JohnA", "NYC");
+        Person person = new Person(80, "JohnA", "NYC");
 
-        restTemplate.put(baseUrl + "/update/{id}", person, 49);
-        Person person1 = personDAO.findById(49).get();
+        restTemplate.put(baseUrl + "/update/{id}", person, 80);
+        Person person1 = personDAO.findById(80).get();
 
         Assertions.assertAll(
                 () -> assertNotNull(person1.getCity()),
@@ -71,10 +70,10 @@ class SampleTestApplicationTests {
     @Test
     public void updatePersonDB() {
         // Existing data in the database
-        int existingPersonId = 48;
+        int existingPersonId = 56;
 
         // Create a Person object with the updated data
-        Person updatedPerson = new Person(existingPersonId, "JohnA", "DC");
+        Person updatedPerson = new Person(existingPersonId, "C", "DC");
 
         // Perform an update operation
         restTemplate.put(baseUrl + "/update/{id}", updatedPerson, existingPersonId);
@@ -85,6 +84,7 @@ class SampleTestApplicationTests {
         // Assertions to verify the update
         Assertions.assertNotNull(personFromDatabase);
         Assertions.assertEquals("DC", personFromDatabase.getCity());
+        Assertions.assertEquals("C", personFromDatabase.getName());
     }
 
 }
