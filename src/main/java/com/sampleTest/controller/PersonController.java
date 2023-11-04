@@ -7,7 +7,9 @@ package com.sampleTest.controller;
 import com.sampleTest.DTO.PersonDto;
 import com.sampleTest.model.Person;
 import com.sampleTest.service.PersonService;
+import java.lang.System.Logger;
 import java.util.List;
+import java.util.logging.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +34,9 @@ public class PersonController {
     @Autowired
     private PersonService personService;
 
+
+    
+    
     @PostMapping("/savePerson")
     public ResponseEntity<String> savexmlPerson(@RequestBody Person person) {
         String xml = personService.savexmlPerson(person);
@@ -55,7 +60,8 @@ public class PersonController {
     public List<Person> getAllPersons() {
         return personService.getAllPersons();
     }
-
+    
+    
     @GetMapping("/{id}")
     public ResponseEntity<Person> getPersonById(@PathVariable Integer id) {
         Person person = personService.getPersonById(id);

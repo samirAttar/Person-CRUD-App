@@ -2,6 +2,8 @@ package com.sampleTest;
 
 import com.sampleTest.DAO.PersonDAO;
 import com.sampleTest.model.Person;
+import java.util.Optional;
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Assertions;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -87,4 +89,24 @@ class SampleTestApplicationTests {
         Assertions.assertEquals("C", personFromDatabase.getName());
     }
 
+    
+    @Test
+    @Sql(statements = "Insert into person(id,name,city) Values(85,'JohnA','DC')", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    public void deletePerson(){
+    
+        // Prepare: Retrieve the inserted person by ID
+    Person person = personDAO.findById(85).orElseThrow(() -> new RuntimeException("Person with id 85 not found"));
+    
+     // Exercise: Delete the person
+    personDAO.delete(person);
+    
+     // Verify: Ensure the person has been deleted from the database
+    Optional<Person> deletedPerson = personDAO.findById(85);
+    assertThat(deletedPerson).isEmpty();
+    
+    }
+    
+    
+    
+    
 }
