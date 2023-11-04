@@ -2,16 +2,22 @@ package com.sampleTest;
 
 import com.sampleTest.DAO.PersonDAO;
 import com.sampleTest.model.Person;
+import java.util.List;
 import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.web.client.RestTemplate;
 
@@ -46,9 +52,9 @@ class SampleTestApplicationTests {
         Person response = restTemplate.postForObject(baseUrl, person, Person.class);
 
         Assertions.assertEquals("JohnA", response.getName());
-        Assertions.assertEquals("NYC",response.getCity());
+        Assertions.assertEquals("NYC", response.getCity());
         Assertions.assertEquals(83, response.getId());
-       
+
     }
 
     // Make sure this method will create new data and after execution it will delete that data.
@@ -89,24 +95,33 @@ class SampleTestApplicationTests {
         Assertions.assertEquals("C", personFromDatabase.getName());
     }
 
-    
     @Test
     @Sql(statements = "Insert into person(id,name,city) Values(85,'JohnA','DC')", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    public void deletePerson(){
-    
+    public void deletePerson() {
+
         // Prepare: Retrieve the inserted person by ID
-    Person person = personDAO.findById(85).orElseThrow(() -> new RuntimeException("Person with id 85 not found"));
-    
-     // Exercise: Delete the person
-    personDAO.delete(person);
-    
-     // Verify: Ensure the person has been deleted from the database
-    Optional<Person> deletedPerson = personDAO.findById(85);
-    assertThat(deletedPerson).isEmpty();
-    
+        Person person = personDAO.findById(85).orElseThrow(() -> new RuntimeException("Person with id 85 not found"));
+
+        // Exercise: Delete the person
+        personDAO.delete(person);
+
+        // Verify: Ensure the person has been deleted from the database
+        Optional<Person> deletedPerson = personDAO.findById(85);
+        assertThat(deletedPerson).isEmpty();
+
     }
-    
-    
-    
-    
+
+    @Test
+    @Sql(statements = "Insert into person(id,name,city) Values(99,'JohnA','DC')", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(statements = "DELETE FROM person where id=99", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    public void getByIdPerson() {
+        Person person = restTemplate.getForObject(baseUrl + "/{id}", Person.class,99);
+        assertAll(
+                () -> assertNotNull(person),
+                () -> assertEquals(99, person.getId()),
+                () -> assertEquals("JohnA", person.getName())
+        );
+
+    } 
+
 }
