@@ -36,7 +36,6 @@ public class PersonController {
 
 
     
-    
     @PostMapping("/savePerson")
     public ResponseEntity<String> savexmlPerson(@RequestBody Person person) {
         String xml = personService.savexmlPerson(person);
@@ -55,11 +54,18 @@ public class PersonController {
         return personService.updatePerson(person,id);
     }
 
+    @PutMapping("/update/xml/{id}")
+    public String updateXmlPerson(@RequestBody PersonDto dto, @PathVariable int id){
+    return personService.updatePersonxml(dto, id);
+    
+    }
+    
     //http://localhost:8085/api/persons/
     @GetMapping("/")
     public List<Person> getAllPersons() {
         return personService.getAllPersons();
     }
+   
     
     
     @GetMapping("/{id}")
@@ -70,6 +76,23 @@ public class PersonController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+    
+    
+    @GetMapping("/{id}/xml")
+    public ResponseEntity<String> getPersonXmlById(@PathVariable Integer id){
+        String personXmlById = personService.getPersonXmlById(id);
+    
+    return new ResponseEntity<>(personXmlById,HttpStatus.OK);
+    
+    
+    }
+    
+     @GetMapping("/xml")
+    public ResponseEntity<String> getPersonAllXml(){
+        String person = personService.getAllPersonXML();
+        return new ResponseEntity<>(person,HttpStatus.OK);
+        
     }
 
     @DeleteMapping("/{id}")
